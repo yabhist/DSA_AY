@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+//
 long long binpow(long long a, long long b)
 {
     long long res=1;
