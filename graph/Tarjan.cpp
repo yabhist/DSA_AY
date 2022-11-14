@@ -146,5 +146,21 @@ int main()
 	g5.addEdge(4,2);
 	g5.SCC();
 
+	cout << "\nSCCs in sixth graph \n";
+	Graph g6(8);
+	g6.addEdge(4,4);
+	g6.addEdge(3,1);
+	g6.addEdge(0,2);
+	g6.addEdge(6,3);
+	g6.addEdge(6,5);
+	g6.addEdge(1,4);
+	g6.addEdge(1,7);
+	g6.addEdge(3,7);
+	g6.addEdge(1,0);
+	g6.addEdge(3,3);
+	g6.addEdge(4,3);
+	g6.addEdge(1,4);
+	g6.addEdge(7,6);
+	g6.SCC();
 	return 0;
 }
