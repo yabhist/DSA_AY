@@ -17,6 +17,7 @@ int main()
     adj[6].push_back({3,1});
     adj[6].push_back({7,2});
     adj[7].push_back({6,2});
+
     int src =1;
     priority_queue <pair<int,int> ,vector<pair<int,int>> ,greater<pair<int,int>>> pq;
     vector<int> dis(8,INT_MAX);

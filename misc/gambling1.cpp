@@ -140,6 +140,8 @@ int32_t main() {
         solve();
     }
 }
+//choose number from array such that money maximised , at start we have 1
+//suppose in 1st test we choose 4 then 2,4,2,4,8 -- 8 max in this case , we play from 1 to 5 (index)
 // 4
 // 5
 // 4 4 3 4 4   
