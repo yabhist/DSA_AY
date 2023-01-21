@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+//my laptop is the best
 int main()
 {
     int mx=1e5;
