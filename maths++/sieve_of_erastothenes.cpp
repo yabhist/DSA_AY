@@ -3,7 +3,7 @@ using namespace std;
 //my laptop is the best
 int main()
 {
-    int mx=1e5;
+    int mx=32000;
     bool prime[mx+1];
     memset(prime,true,sizeof(prime));
     prime[0]=false,prime[1]=false;
