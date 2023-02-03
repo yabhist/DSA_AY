@@ -37,7 +37,7 @@ void update(int a[],int i, int val, int low, int high, int pos)
 {
     if(low==high)
     {
-        a[i]=val;
+        a[low]=val;//a[i]=val
         segtree[pos]=val;
     }
     else
@@ -54,6 +54,41 @@ void update(int a[],int i, int val, int low, int high, int pos)
         segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
     }
 }
+void update1(int a[],int i, int val, int low, int high, int pos)
+{
+    if(i<low || i>high)
+    {
+        return;
+    }
+    if(low==high)
+    {
+        a[low]=val;//a[i]=val
+        segtree[pos]=val;
+        return;
+    }
+    int mid=(low+high)/2;
+    update1(a,i,val,low,mid,2*pos+1);
+    update1(a,i,val,mid+1,high,2*pos+2);
+    segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
+    
+}
+void update2(int a[],int l,int r, int diff, int low, int high, int pos)
+{
+    if(r<low || l>high)
+    {
+        return;
+    }
+    if(low==high)
+    {
+        a[low]+=diff;
+        segtree[pos]+=diff;
+        return;
+    }
+    int mid=(low+high)/2;
+    update2(a,l,r,diff,low,mid,2*pos+1);
+    update2(a,l,r,diff,mid+1,high,2*pos+2);
+    segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
+}
 
 int main()
 {
@@ -62,8 +97,9 @@ int main()
     build_segtree(arr,0,n-1,0);
     cout<<query(2,4,0,n-1,0)<<'\n';
     cout<<query(0,4,0,n-1,0)<<'\n';
-    update(arr,3,13,0,n-1,0);
+    update1(arr,3,13,0,n-1,0);
     update(arr,0,13,0,n-1,0);
     cout<<query(2,4,0,n-1,0)<<'\n';
+    update2(arr,0,4,1,0,n-1,0);
     cout<<query(0,4,0,n-1,0)<<'\n';
 }

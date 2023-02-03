@@ -34,7 +34,7 @@ void update(int a[],int i, int val, int low, int high, int pos)
 {
     if(low==high)
     {
-        a[i]=val;
+        a[low]=val;//a[i]=val
         segtree[pos]=val;
     }
     else
