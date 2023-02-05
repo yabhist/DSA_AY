@@ -3,13 +3,12 @@
 
 using namespace std;
 
-int parent[1000]={0};
-int size[1000]={0};
+vector<int>parent(100),Size(100);
 
 void make(int v)
 {
     parent[v]=v;
-    size[v]=1;
+    Size[v]=1;
 }
 int find(int v)
 {
@@ -22,10 +21,10 @@ bool Union(int a, int b)
     b=find(b);
     if(a!=b)
     {
-        if(size[a]<size[b])swap(a,b);
+        if(Size[a]<Size[b])swap(a,b);
         parent[b]=a;
-        size[a]+=size[b];
-        size[b]=0;
+        Size[a]+=Size[b];
+        Size[b]=0;
         return true;
     }
     return false;

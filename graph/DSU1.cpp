@@ -3,8 +3,7 @@
 
 using namespace std;
 
-int parent[1000]={0};
-int Rank[1000]={0};
+vector<int>parent(100),Rank(100);
 
 void make(int v)
 {
