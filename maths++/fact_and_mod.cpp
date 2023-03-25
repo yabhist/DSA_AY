@@ -2,7 +2,7 @@
 using namespace std;
 
 const int NMAX=2e5,mod=998244353;
-int factmod[NMAX],invmod[NMAX],invfactmod[NMAX];
+int factmod[NMAX+5],invmod[NMAX+5],invfactmod[NMAX+5];
 
 int BC(int n, int k)
 {
@@ -10,6 +10,7 @@ int BC(int n, int k)
 }
 
 int binpow_fermat(int a, int b, int m) {
+    // m is prime
     a %= m;
     int res = 1;
     b=b%(m-1);
@@ -21,7 +22,8 @@ int binpow_fermat(int a, int b, int m) {
     }
     return res;
 }
-int mod_inverse(int a, int m)
+
+int mod_inverse_prime(int a, int m)//m is prime
 {
     return binpow_fermat(a,m-2,m);
 }
@@ -29,6 +31,7 @@ int mod_inverse(int a, int m)
 int factorial_mod(int n, int p) {
     //If you need to call the function multiple times, then you can do the precomputation outside of the function
     //p relatively small than n
+    //p is prime
     vector<int> f(p);
     f[0] = 1;
     for (int i = 1; i < p; i++)
@@ -75,8 +78,9 @@ std::vector<int> invs(const std::vector<int> &a, int m) {
 
 int main()
 {
+    //mod is coprime with each from 1 to NMAX
     factmod[0]=invmod[0]=invfactmod[0]=factmod[1]=invmod[1]=invfactmod[1]=1;
-    for(int i=2;i<NMAX;i++) factmod[i] = factmod[i-1] * i % mod;
-    for(int i=2;i<NMAX;i++) invmod[i] = mod - mod / i * invmod[mod%i] % mod;
-    for(int i=2;i<NMAX;i++) invfactmod[i] = invfactmod[i-1] * invmod[i] % mod;
+    for(int i=2;i<=NMAX;i++) factmod[i] = factmod[i-1] * i % mod;
+    for(int i=2;i<=NMAX;i++) invmod[i] = mod - mod / i * invmod[mod%i] % mod;
+    for(int i=2;i<=NMAX;i++) invfactmod[i] = invfactmod[i-1] * invmod[i] % mod;
 }

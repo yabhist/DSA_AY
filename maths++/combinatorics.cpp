@@ -17,14 +17,14 @@ int C2(int n, int k) {
     return (int)(res + 0.01);
 }
 
-const int maxn = 100;
-int C[maxn + 1][maxn + 1];
+const int NMAX = 100;
+int C[NMAX + 1][NMAX + 1];
 
 
 int main()
 {
     C[0][0] = 1;
-    for (int n = 1; n <= maxn; ++n) {
+    for (int n = 1; n <= NMAX; ++n) {
         C[n][0] = C[n][n] = 1;
         for (int k = 1; k < n; ++k)
             C[n][k] = C[n - 1][k - 1] + C[n - 1][k];
