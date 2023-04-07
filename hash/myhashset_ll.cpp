@@ -32,14 +32,13 @@ public:
             return;
         }
         ListNode *ptr=table[hf];
-        ListNode *tmp=new ListNode(val);
         while(ptr->next){
             if(ptr->next->va==val){
-                delete(tmp);
                 return;
             }
             ptr=ptr->next;
         }
+        ListNode *tmp=new ListNode(val);
         ptr->next=tmp;
     }
     

@@ -34,15 +34,14 @@ public:
             return;
         }
         ListNode *ptr=table[hf];
-        ListNode *tmp=new ListNode(key,val);
         while(ptr->next){
             if(ptr->next->ke==key){
                 ptr->next->va=val;
-                delete(tmp);
                 return;
             }
             ptr=ptr->next;
         }
+        ListNode *tmp=new ListNode(key,val);
         ptr->next=tmp;
     }
     
@@ -66,7 +65,7 @@ public:
         if(table[hf]->ke==key){
             ListNode* tmp=table[hf];
             table[hf]=table[hf]->next;
-            delete(tmp);
+            delete tmp;
             return;
         }
         ListNode *ptr=table[hf];
