@@ -71,7 +71,7 @@ public:
                 ListNode *tmp=ptr->next;
                 ptr->next=ptr->next->next;
                 delete(tmp);
-                break;
+                return;
             }
             ptr=ptr->next;
         }
