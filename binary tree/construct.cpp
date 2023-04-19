@@ -8,32 +8,24 @@ struct TreeNode { //class TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-TreeNode* build(vector<int>&in,vector<int>&pre,int pres, int pree, int ins, int ine, map<int,int>&mp)
+TreeNode* build(vector<int>&pre,int pres, int pree, int ins, int ine, map<int,int>&mp)
 {
     if(pres>pree || ins>ine)return NULL;
-    for(int i=0;i<in.size();i++)
-    {
-        mp[in[i]]=i;
-    }
     TreeNode* root=new TreeNode(pre[pres]);
     int a=mp[root->val];
     int b=a-ins;
-    root->left=build(in,pre,pres+1,pres+b,ins,a-1,mp);
-    root->right=build(in,pre,pres+b+1,pree,a+1,ine,mp);
+    root->left=build(pre,pres+1,pres+b,ins,a-1,mp);
+    root->right=build(pre,pres+b+1,pree,a+1,ine,mp);
     return root;
 }
-TreeNode* build1(vector<int>&in,vector<int>&post,int posts, int poste, int ins, int ine, map<int,int>&mp)
+TreeNode* build1(vector<int>&post,int posts, int poste, int ins, int ine, map<int,int>&mp)
 {
     if(posts>poste || ins>ine)return NULL;
-    for(int i=0;i<in.size();i++)
-    {
-        mp[in[i]]=i;
-    }
     TreeNode* root=new TreeNode(post[poste]);
     int a=mp[root->val];
     int b=a-ins;
-    root->left=build1(in,post,posts,posts+b-1,ins,a-1,mp);
-    root->right=build1(in,post,posts+b,poste-1,a+1,ine,mp);
+    root->left=build1(post,posts,posts+b-1,ins,a-1,mp);
+    root->right=build1(post,posts+b,poste-1,a+1,ine,mp);
     return root;
 }
 vector<vector<int>>levelorder(TreeNode * root)
@@ -102,7 +94,11 @@ int main()
     vector<int>in={7,2,9,3,1};
     vector<int>pre={3,9,2,7,1};
     map<int,int>mp;
-    TreeNode* root=build(in,pre,0,4,0,4,mp);
+    for(int i=0;i<in.size();i++)
+    {
+        mp[in[i]]=i;
+    }
+    TreeNode* root=build(pre,0,4,0,4,mp);
     for(auto i:levelorder(root))
     {
         for(auto j:i)
@@ -118,9 +114,9 @@ int main()
     postorder(root);
     cout<<endl;
 
-    vector<int>in1={7,2,9,3,1};
+
     vector<int>post={7,2,9,1,3};
-    TreeNode* root1=build1(in,post,0,4,0,4,mp);
+    TreeNode* root1=build1(post,0,4,0,4,mp);
     for(auto i:levelorder(root1))
     {
         for(auto j:i)
