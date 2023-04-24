@@ -98,6 +98,19 @@ int main()
     cout<<'\n';
     cout<<ct<<'\n';
 
+    /*
+    for(int i=2;i*i<=mx;i++)
+    {
+        if((!pFactor[i]))
+        {
+            for(int j=i*i;j<=mx;j+=i)
+            {
+                pFactorOf[j]=i;
+            }
+        }
+    }
+    */
+
     /* Linear Sieve
     const int N = 10000000;
     vector<int> lp(N+1);

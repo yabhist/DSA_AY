@@ -8,14 +8,14 @@ struct item {
 
 item pr[100000];
 
-int size = -1;
+int Size = -1;
 
 void enqueue(int value, int priority)
 {
-	size++;
+	Size++;
 
-	pr[size].value = value;
-	pr[size].priority = priority;
+	pr[Size].value = value;
+	pr[Size].priority = priority;
 }
 
 int peek()
@@ -23,18 +23,13 @@ int peek()
 	int highestPriority = INT_MIN;
 	int ind = -1;
 
-	for (int i = 0; i <= size; i++) {
+	for (int i = 0; i <= Size; i++) {
 
-		if (highestPriority
-				== pr[i].priority
-			&& ind > -1
-			&& pr[ind].value
-				< pr[i].value) {
+		if (highestPriority == pr[i].priority && ind > -1 && pr[ind].value < pr[i].value) {
 			highestPriority = pr[i].priority;
 			ind = i;
 		}
-		else if (highestPriority
-				< pr[i].priority) {
+		else if (highestPriority < pr[i].priority) {
 			highestPriority = pr[i].priority;
 			ind = i;
 		}
@@ -47,11 +42,11 @@ void dequeue()
 {
 	int ind = peek();
 
-	for (int i = ind; i < size; i++) {
+	for (int i = ind; i < Size; i++) {
 		pr[i] = pr[i + 1];
 	}
 
-	size--;
+	Size--;
 }
 
 int main()

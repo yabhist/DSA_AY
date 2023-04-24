@@ -2,7 +2,7 @@
 using namespace std;
 
 int H[50];
-int size = -1;
+int Size = -1;
 
 int parent(int i)
 {
@@ -37,13 +37,13 @@ void shiftDown(int i)
 
 	int l = leftChild(i);
 
-	if (l <= size && H[l] > H[maxIndex]) {
+	if (l <= Size && H[l] > H[maxIndex]) {
 		maxIndex = l;
 	}
 
 	int r = rightChild(i);
 
-	if (r <= size && H[r] > H[maxIndex]) {
+	if (r <= Size && H[r] > H[maxIndex]) {
 		maxIndex = r;
 	}
 
@@ -55,16 +55,16 @@ void shiftDown(int i)
 
 void insert(int p)
 {
-	size = size + 1;
-	H[size] = p;
-	shiftUp(size);
+	Size = Size + 1;
+	H[Size] = p;
+	shiftUp(Size);
 }
 
 int extractMax()
 {
 	int result = H[0];
-	H[0] = H[size];
-	size = size - 1;
+	H[0] = H[Size];
+	Size = Size - 1;
 
 	shiftDown(0);
 	return result;
@@ -101,12 +101,12 @@ int main()
 {
 
 	/*		 45
-			/	 \
-		31	 14
-		/ \ / \
-		13 20 7 11
+			/	\
+		  31	 14
+		 / \     / \
+		13 20    7 11
 		/ \
-	    12 7
+	   12 7
 
 	45 31 14 13 20 7 11 12 7 */
 
@@ -122,7 +122,7 @@ int main()
 
 	int i = 0;
 	cout << "Priority Queue : ";
-	while (i <= size) {
+	while (i <= Size) {
 		cout << H[i] << " ";
 		i++;
 	}
@@ -135,7 +135,7 @@ int main()
 	cout << "Priority queue after "
 		<< "extracting maximum : ";
 	int j = 0;
-	while (j <= size) {
+	while (j <= Size) {
 		cout << H[j] << " ";
 		j++;
 	}
@@ -146,7 +146,7 @@ int main()
 	cout << "Priority queue after "
 		<< "priority change : ";
 	int k = 0;
-	while (k <= size) {
+	while (k <= Size) {
 		cout << H[k] << " ";
 		k++;
 	}
@@ -157,7 +157,7 @@ int main()
 	cout << "Priority queue after "
 		<< "removing the element : ";
 	int l = 0;
-	while (l <= size) {
+	while (l <= Size) {
 		cout << H[l] << " ";
 		l++;
 	}

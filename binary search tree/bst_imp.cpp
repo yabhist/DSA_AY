@@ -10,6 +10,7 @@ class bst
         bst();
         bst(int);
         bst* insert(bst*,int);
+        bst* insert_iterative(bst*,int);
         bst* search(bst*,int);
         bst* deletenode(bst* , int );
         void inorder(bst*);
@@ -38,6 +39,28 @@ bst* bst::insert(bst* root, int val)
     }
     return root;
 }
+bst* bst::insert_iterative(bst* root, int val) {
+        if(!root){
+            return new bst(val);
+        }
+        bst* p=root,*q=NULL;
+        while(p){
+            q=p;
+            if(val < p->data){
+                p=p->left;
+            }
+            else{
+                p=p->right;
+            }
+        }
+        if(val > q->data){
+            q->right=new bst(val);
+        }
+        else{
+            q->left=new bst(val);
+        }
+        return root;
+    }
 void bst ::inorder(bst* root)
 {
     if (!root) {
@@ -106,7 +129,7 @@ int main()
     b.insert(root, 30);
     b.insert(root, 20);
     b.insert(root, 40);
-    b.insert(root, 70);
+    b.insert_iterative(root, 70);
     b.insert(root, 60);
     b.insert(root, 80);
     b.inorder(root);
