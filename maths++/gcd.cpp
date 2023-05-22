@@ -60,7 +60,25 @@ int extended_euclidean(int a, int b, int& x, int& y) {
     }
     return a1;
 }
-
+std::vector<int> invs(const std::vector<int> &a, int m) {
+    //we are given an array and we want to find modular inverse for all numbers in it (all of them are invertible)
+    int n = a.size();
+    if (n == 0) return {};
+    std::vector<int> b(n);
+    int v = 1;
+    for (int i = 0; i != n; ++i) {
+        b[i] = v;
+        v = static_cast<long long>(v) * a[i] % m;
+    }
+    int x, y;
+    extended_euclidean(v, m, x, y);
+    x = (x % m + m) % m;
+    for (int i = n - 1; i >= 0; --i) {
+        b[i] = static_cast<long long>(x) * b[i] % m;
+        x = static_cast<long long>(x) * a[i] % m;
+    }
+    return b;
+}
 int lcm (int a, int b) {
     return a / gcd(a, b) * b;
 }

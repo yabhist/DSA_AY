@@ -10,25 +10,6 @@ int BC(int n, int k)
 }
 */
 
-int binpow_fermat(int a, int b, int m) {
-    // m is prime
-    a %= m;
-    int res = 1;
-    b=b%(m-1);
-    while (b > 0) {
-        if (b & 1)
-            res = res * a % m;
-        a = a * a % m;
-        b >>= 1;
-    }
-    return res;
-}
-
-int mod_inverse_prime(int a, int m)//m is prime
-{
-    return binpow_fermat(a,m-2,m);
-}
-
 int factorial_mod(int n, int p) {
     //If you need to call the function multiple times, then you can do the precomputation outside of the function
     //p relatively small than n
@@ -84,26 +65,6 @@ int multiplicity_factorial_composite(int n, int k)
         ans=min(ans,multiplicity_factorial(n,v[i].first)/v[i].second);
     }
     return (ans==1e9)?0:ans;
-}
-
-std::vector<int> invs(const std::vector<int> &a, int m) {
-    //we are given an array and we want to find modular inverse for all numbers in it (all of them are invertible)
-    int n = a.size();
-    if (n == 0) return {};
-    std::vector<int> b(n);
-    int v = 1;
-    for (int i = 0; i != n; ++i) {
-        b[i] = v;
-        v = static_cast<long long>(v) * a[i] % m;
-    }
-    int x, y;
-    //extended_euclidean(v, m, x, y);
-    x = (x % m + m) % m;
-    for (int i = n - 1; i >= 0; --i) {
-        b[i] = static_cast<long long>(x) * b[i] % m;
-        x = static_cast<long long>(x) * a[i] % m;
-    }
-    return b;
 }
 
 int main()
