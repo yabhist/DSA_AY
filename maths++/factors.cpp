@@ -10,7 +10,7 @@ typedef unsigned long long ull;
 typedef long double ld;
 
 #define int long long
-const int mx=100;
+const int mx=1e6;
 int32_t main()
 {
     ios::sync_with_stdio(false);
@@ -23,6 +23,11 @@ int32_t main()
             store[i].push_back(k);
         }
     }
+    int ans=0;
+    for(int i=1;i<=mx;i++){
+        ans+=store[i].size();
+    }
+    cout<<ans<<'\n';
     for(int i=1;i<=100;i++)
     {
         cout<<i<<'\n';

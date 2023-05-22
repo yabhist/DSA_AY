@@ -101,11 +101,11 @@ int main()
     /*
     for(int i=2;i*i<=mx;i++)
     {
-        if((!pFactor[i]))
+        if((!pFactorOf[i]))
         {
             for(int j=i*i;j<=mx;j+=i)
             {
-                pFactorOf[j]=i;
+                if(!pFactorOf[j]) pFactorOf[j]=i;
             }
         }
     }
