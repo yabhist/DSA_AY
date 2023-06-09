@@ -20,7 +20,7 @@ int lca(int u, int v){
         swap(u,v);
     }
     int diff=lvl[u]-lvl[v];
-    for(int i=0;i<LGN;i++){
+    for(int i=0;i<=LGN;i++){
         if((1<<i)&diff){
             u=dp[u][i];
         }

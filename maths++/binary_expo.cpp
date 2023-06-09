@@ -53,7 +53,7 @@ long long binpow_fermat(long long a, long long b, long long m) {
     }
     return res;
 }
-int mod_inverse_prime(int a, int m)//m is prime
+long long mod_inverse_prime(long long a, long long m)//m is prime
 {
     return binpow_fermat(a,m-2,m);
 }
