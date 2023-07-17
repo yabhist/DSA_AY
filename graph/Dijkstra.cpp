@@ -28,6 +28,7 @@ int main()
         int dist=pq.top().first;
         int prev=pq.top().second;
         pq.pop();
+        if(dis[prev]!=dist) continue;
         vector<pair<int,int>>::iterator it;
         for(it=adj[prev].begin(); it!=adj[prev].end(); it++)
         {

@@ -28,11 +28,11 @@ int main()
     key[1]=0;
     par[1]=-1;
     pq.push({0,1});
-    for(int i=1;i<7;i++)
+    while(!pq.empty())
     {
         int u=pq.top().second;
         pq.pop();
-
+        if(mstset[u]) continue;
         mstset[u]=true;
         for(auto it:adj[u])
         {
