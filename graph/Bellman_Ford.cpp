@@ -27,7 +27,7 @@ int main(){
     dist[src] = 0; 
     for(int i = 1;i<=N-1;i++) {
         for(auto it: edges) {
-            if(dist[it.u] + it.wt < dist[it.v]) {
+            if(dist[it.u]!=inf && dist[it.u] + it.wt < dist[it.v]) {
                 dist[it.v] = dist[it.u] + it.wt; 
             }
         }
@@ -35,7 +35,7 @@ int main(){
 
     int fl = 0; 
     for(auto it: edges) {
-        if(dist[it.u] + it.wt < dist[it.v]) {
+        if(dist[it.u]!=inf && dist[it.u] + it.wt < dist[it.v]) {
             cout << -1; 
             fl = 1; 
             break; 

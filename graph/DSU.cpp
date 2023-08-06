@@ -1,21 +1,19 @@
 #include<bits/stdc++.h>
-
-
 using namespace std;
+typedef long long ll;
+vector<ll>parent,Size;
 
-vector<int>parent(100),Size(100);
-
-void make(int v)
+void make(ll v)
 {
     parent[v]=v;
     Size[v]=1;
 }
-int find(int v)
+ll find(ll v)
 {
     if(v==parent[v])return v;
     return parent[v]=find(parent[v]);
 }
-bool Union(int a, int b)
+bool Union(ll a, ll b)
 {
     a=find(a);
     b=find(b);
@@ -31,5 +29,9 @@ bool Union(int a, int b)
 }
 int main()
 {
-    
+    /*
+    parent.assign(n,-1);
+    iota(parent.begin(),parent.end(),0ll);
+    Size.assign(n,1);
+    */
 }
