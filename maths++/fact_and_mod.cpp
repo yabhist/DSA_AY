@@ -75,6 +75,11 @@ int main()
     for(int i=2;i<=NMAX;i++) factmod[i] = factmod[i-1] * i % mod;
     for(int i=2;i<=NMAX;i++) invmod[i] = mod - mod / i * invmod[mod%i] % mod;
     for(int i=2;i<=NMAX;i++) invfactmod[i] = invfactmod[i-1] * invmod[i] % mod;
+
+    factmod[0] = 1;
+    for(int i = 1; i <= NMAX; i++) factmod[i] = factmod[i - 1] * i % mod;
+    invfactmod[NMAX] = binpow_mod(factmod[NMAX], mod - 2);
+    for(int i = NMAX - 1; i >= 0; i--) invfactmod[i] = invfactmod[i + 1] * (i + 1) % mod;
     */
 
     cout<<multiplicity_factorial_composite(6,4)<<'\n';

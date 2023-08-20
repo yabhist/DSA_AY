@@ -99,16 +99,18 @@ int main()
     cout<<ct<<'\n';
 
     /*
+    vector<ll>pFactorOf(mx+1);
+    iota(pFactorOf.begin(),pFactorOf.end(),0ll);
     for(int i=2;i*i<=mx;i++)
-    {
-        if((!pFactorOf[i]))
-        {
-            for(int j=i*i;j<=mx;j+=i)
-            {
-                if(!pFactorOf[j]) pFactorOf[j]=i;
-            }
-        }
-    }
+	{
+		if((pFactorOf[i]==i))
+		{
+			for(int j=i*i;j<=mx;j+=i)
+			{
+				if(pFactorOf[j]==j) pFactorOf[j]=i;
+			}
+		}
+	}
     */
 
     /* Linear Sieve
