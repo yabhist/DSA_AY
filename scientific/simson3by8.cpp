@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+double func(double x){
+    return 1/(1+x*x);
+}
+int main(){
+    cout<<fixed<<setprecision(10);
+    double lower,upper,subinterval;
+    cin>>lower>>upper>>subinterval;
+    double integral=0;
+    double stepsize=(upper-lower)/subinterval;
+    integral=func(upper)+func(lower);
+    for(int i=1;i<=subinterval-1;i++){
+        double k=lower+i*stepsize;
+        if(i%3==0) integral+=2*func(k);
+        else integral+=3*func(k);
+    }
+    integral*=stepsize*(3.0/8);
+    cout<<integral<<'\n';
+}
