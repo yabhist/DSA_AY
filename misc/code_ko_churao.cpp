@@ -58,9 +58,46 @@ bool Union(ll a, ll b)
     return false;
 
 }
+
 parent.assign(n,-1);
 iota(parent.begin(),parent.end(),0ll);
 Size.assign(n,1);
+Rank.assign(n,0);
+
+vector<ll>parent,Rank;
+void make(int v)
+{
+    parent[v]=v;
+    Rank[v]=0;
+}
+int find(int v)
+{
+    if(v==parent[v])return v;
+    return parent[v]=find(parent[v]);
+}
+bool Union(int a, int b)
+{
+    a=find(a);
+    b=find(b);
+    if(a!=b)
+    {
+        if(Rank[a]<Rank[b])
+        {
+            parent[a]=b;
+        }
+        else if(Rank[a]>Rank[b])
+        {
+            parent[b]=a;
+        }
+        else
+        { 
+            parent[b]=a;
+            Rank[a]++;
+        }
+        return true;
+    }
+    return false;
+}
 */
 
 /*FACT
@@ -69,7 +106,7 @@ ll factmod[NMAX+5],invmod[NMAX+5],invfactmod[NMAX+5];
 
 ll BC(ll n, ll k)
 {
-    if(k<0 || k>n){
+    if(n<0 || k<0 || k>n){
         return 0;
     }
     return factmod[n] * invfactmod[k] % mod * invfactmod[n-k] % mod;
@@ -142,8 +179,163 @@ while(!pq.empty())
 adj.assign(n,vector<vector<ll>>());
 */
 
-/*
+/*BELLMAN FORD
+struct node {
+    ll u;
+    ll v;
+    ll wt; 
+    node(ll first, ll second, ll weight) {
+        u = first;
+        v = second;
+        wt = weight;
+    }
+};
+vector<ll> dist(n, 1e18); 
+dist[0] = 0; 
+for(ll i = 1;i<=N-1;i++) {
+    for(auto it: edges) {
+        if(dist[it.u]!=1e18 && dist[it.u] + it.wt < dist[it.v]) {
+            dist[it.v] = dist[it.u] + it.wt; 
+        }
+    }
+}
 
+ll fl = 0; 
+for(auto it: edges) {
+    if(dist[it.u]!=1e18 && dist[it.u] + it.wt < dist[it.v]) {
+        fl = 1; 
+        break; 
+    }
+}
+
+// if(!fl) {
+//     for(ll i = 0;i<N;i++) {
+//         cout << dist[i]<<" ";
+//     }
+// }
+*/
+
+/*FLOYD WARSHALL
+void shortest_distance(vector<vector<ll>>&matrix){
+    ll n=matrix.size();
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<n;j++)
+        {
+            if(matrix[i][j]==-1)matrix[i][j]=1e18;
+        }
+    }
+    for(ll k=0;k<n;k++)
+    {
+        for(ll i=0;i<n;i++)
+        {
+            for(ll j=0;j<n;j++)
+            {
+                matrix[i][j]=min(matrix[i][j], matrix[i][k] + matrix [k][j]);
+            }
+        }
+    }
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<n;j++)
+        {
+            if(matrix[i][j]==1e8) matrix[i][j]=-1;
+        }
+    }
+}
+*/
+
+/*SHORTEST BFS
+vector<ll>dis;
+dis.assign(n,-1);
+dis[0]=0;
+
+queue<ll>q;
+q.push(0);
+while(!q.empty())
+{
+    ll i=q.front();
+    q.pop();
+    for(auto it:adj[i])
+    {
+        if(dis[it]==-1)
+        {
+            dis[it]=dis[i]+1; 
+            q.push(it);
+        }
+    }
+}  
+*/
+
+/*SHORTEST DAG
+stack<ll>s;
+vector<ll>dis;
+void dfs_topo(ll i)
+{
+    vis[i]=1;
+    for(auto it: adj[i])
+    {
+        if(!vis[it.first])
+        {
+            dfs_topo(it.first);
+        }
+    }
+    s.push(i);
+}
+
+void shortest_path_dag()
+{
+    dis.assign(n,1e18);
+    dis[0]=0;
+    for(ll i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            dfs_topo(i,vis,adj,s);
+        }
+    }
+    while(!s.empty())
+    {
+        ll node=s.top();
+        s.pop();
+        if(dis[node]!=1e18)
+        {
+            for(auto it:adj[node])
+            {
+                if(dis[node]+it.second < dis[it.first])
+                {
+                    dis[it.first]=dis[node]+it.second;
+                }
+            }
+        }
+    }
+}
+*/
+
+/*LONGEST PATH
+ll sum=0;
+ll ans=-1;
+void dfs(ll u){
+    vis[u]=1;
+    ans=max(ans,sum);
+    for(auto i:adj[u]){
+        if(!vis[i.first]){
+            sum+=i.second;
+            dfs(i.first);
+            sum-=i.second;
+        }
+    }
+    vis[u]=0;
+}
+
+for(ll i=0;i<n;i++){
+    vis.assign(n,0);
+    sum=0;
+    dfs(i);
+}
+*/
+
+/*FENWICK
 struct binary_indexed_tree{
     ll N;
     vector<ll> bit;
@@ -637,12 +829,296 @@ for(ll k=1;k<=mx;k++)
 }
 */
 
-/*
+/*DFS
+vector<vector<ll>>adj;
+void dfs(ll u){
+    for(auto i:adj[u]){
+        dfs(i,u);
+    }
+}
 vector<vector<ll>>adj;
 void dfs(ll u, ll p){
     for(auto i:adj[u]){
         if(i==p) continue;
         dfs(i,u);
+    }
+}
+vector<vector<ll>>adj;
+vector<bool>vis;
+void dfs(ll u){
+    vis[u]=1;
+    for(auto i:adj[u]){
+        if(!vis[i]){
+            dfs(i);
+        }
+    }
+}
+
+BFS
+vector<vector<ll>>adj;
+queue<ll>q;
+q.push(0);
+while(!q.empty()){
+    auto tm=q.front();
+    q.pop();
+    for(auto i:adj[tm]){
+        q.push(i);
+    }
+}
+vector<vector<ll>>adj;
+vector<bool>vis;
+queue<ll>q;
+q.push(0);
+vis[0]=1;
+while(!q.empty()){
+    auto tm=q.front();
+    q.pop();
+    for(auto i:adj[tm]){
+        if(!vis[i]){
+            vis[i]=1;
+            q.push(i);
+        }
+    }
+}
+vector<vector<ll>>adj;
+vector<bool>vis;
+queue<ll>q;
+vector<vector<ll>>lvl;
+q.push(0);
+vis[0]=1;
+while(!q.empty()){
+    ll sz=q.size();
+    vector<ll>v;
+    for(ll i=0;i<sz;i++){
+        auto tm=q.front();
+        q.pop();
+        for(auto j:adj[tm]){
+            if(!vis[j]){
+                vis[j]=1;
+                q.push(j);
+            }
+        }
+        v.push_back(tm);
+    }
+    lvl.push_back(v);
+}
+*/
+
+/*TOPO
+vector<ll>in;
+vector<ll>topo;
+void bfs_topo(){
+    queue<ll>q;
+    for(ll i=1;i<=n;i++){
+        for(auto it:adj[i]){
+            in[it]++;
+        }    
+    }
+    for(ll i=1;i<=n;i++){
+        if(!in[i]){
+            q.push(i);
+        }
+    }
+    while(!q.empty()){
+        ll node=q.front();
+        topo.push_back(node);
+        q.pop();
+        for(auto it:adj[node]){
+            in[it]--;
+            if(!in[it]){
+                q.push(it);
+            }
+        }
+    }
+}
+
+vector<bool>vis;
+stack<ll>stk;
+vector<ll>topo;
+void dfs(ll u){
+    vis[u]=1;
+    for(auto j: adj[u]){
+        if(!vis[j]){
+            dfs(j);
+        }
+    }
+    stk.push(u);
+}
+void topo(){
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
+            dfs(i);
+        }
+    }
+    while(!stk.empty()){
+        topo.push_back(stk.top());
+        stk.pop();
+    }
+}
+*/
+
+/*CYCLE directed
+vector<bool>vis,dfsvis;
+bool cycle(ll i){
+    vis[i]=1;
+    dfsvis[i]=1;
+    for(auto it:adj[i]){
+        if(!vis[it]){
+            if(cycle(it){
+                return true;
+            }
+        }
+        else if(dfsvis[it]){
+            return true;
+        }
+    }
+    dfsvis[i]=0;
+    return false;
+}
+bool dfsuse(){
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
+            if(cycle(i)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+vector<ll>in;
+bool cycle_bfs(){
+    queue<ll>q;
+    for(ll i=0;i<n;i++){
+        for(auto it:adj[i]){
+            in[it]++;
+        }    
+    }
+    for(ll i=0;i<n;i++){
+        if(!in[i]){
+            q.push(i);
+        }
+    }
+    ll ct=0;
+    while(!q.empty()){
+        ll node=q.front();
+        ct++;
+        q.pop();
+        for(auto it:adj[node]){
+            in[it]--;
+            if(!in[it]){
+                q.push(it);
+            }
+        }
+    }
+    if(ct==n) return false;
+    return true;
+}
+*/
+
+/*CYCLE undirected
+bool cycle(ll i){
+    pair<ll,ll>p={i,-1};
+    queue<pair<ll,ll>>q;
+    vis[i]=1;
+    q.push(p);
+    while(!q.empty()){
+        ll node = q.front().first;
+        ll par=q.front().second;
+        q.pop();
+        for(auto it:adj[node]){
+            if(!vis[it]){
+                vis[it]=1;
+                q.push({it,node});
+            }
+            else if(it!=par){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool bfsuse(){
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
+            if(cycle(i,vis,adj)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool cycle(ll i,ll parent){
+    vis[i]=1;
+    for(auto it:adj[i]){
+        if(!vis[it]){
+            if(cycle(it,i)){
+                return true;
+            }
+        }
+        else if(it!=parent){
+            return true;
+        }
+    }
+    return false;
+}
+bool dfsuse(){
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
+            if(cycle(i,-1)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+*/
+
+/*MST
+KRUSKAL
+struct node{
+    ll wt;
+    ll u;
+    ll v;
+    node(ll first, ll second, ll weight){
+        wt=weight;
+        u=first;
+        v=second;
+    }
+};
+ll cost=0;
+vector<pair<ll,ll>> mst;
+for(auto it:edges){
+    if(find(it.v) != find(it.u)){
+        cost+=it.wt;
+        mst.push_back({it.u,it.v});
+        Union(it.u , it.v);
+    }
+}
+
+PRIM
+vector<ll>par;
+vector<ll>key;
+vector<bool>mstset;
+
+priority_queue<pair<ll,ll> ,vector<pair<ll,ll>> ,greater<pair<ll,ll>>> pq;
+key[1]=0;
+par[1]=-1;
+pq.push({0,1});
+while(!pq.empty()){
+    ll u=pq.top().second;
+    pq.pop();
+    if(mstset[u]) continue;
+    mstset[u]=true;
+    for(auto it:adj[u]){
+        ll v=it.first;
+        ll wt=it.second;
+        if(mstset[v]==false && wt<key[v]){
+            par[v]=u;
+            key[v]=wt;
+            pq.push({key[v],v});
+        }
     }
 }
 */
@@ -704,5 +1180,68 @@ void KMP_pref_suff(){
             }
         }
     }
+}
+*/
+
+/*SPARSE
+vector<vector<ll>>sparse;
+ll n;
+ll LGN;
+vector<ll>a
+void build_sparse()
+{
+    for(ll i=0;i<n;i++)
+    {
+        sparse[i][0]=a[i];
+    }
+    for(ll j=1;(1ll<<j)<=n;j++)
+    {
+        for(ll i=0;i+(1ll<<j)<=n;i++)
+        {
+            sparse[i][j]=max(sparse[i][j-1] , sparse[i+(1ll<<(j-1))][j-1]);
+        }
+    }
+}
+ll query(ll l, ll r)
+{
+    ll j = (ll)log2l(r-l+1);
+    return max(sparse[l][j] , sparse[r-(1<<j)+1][j]);
+}
+sparse.assign(n,vector<ll>(LGN));
+LGN=log2l(n);
+*/
+
+/*MAX IN SUBARRAY
+vector<pair<ll,ll>>res(n,{-1,n});
+stack<ll>st;
+for( ll i=0;i<n;i++)
+{
+    while(!st.empty() && v[st.top()]<v[i])
+    {
+        res[st.top()].second=i;
+        st.pop();
+    }
+    st.push(i);
+}
+while(!st.empty())
+{
+    st.pop();
+}
+for( ll i=n-1;i>=0;i--)
+{
+    while(!st.empty() && v[st.top()]<v[i])
+    {
+        res[st.top()].first=i;
+        st.pop();
+    }
+    st.push(i);
+}
+while(!st.empty())
+{
+    st.pop();
+}
+for(auto i:res)
+{
+    cout<<i.first+1<<' '<<i.second-1<<'\n';
 }
 */

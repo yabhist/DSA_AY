@@ -35,7 +35,7 @@ public:
         help(root);
         return v;
     }
-     vector<int> preorder(Node* root) {
+    vector<int> preorder(Node* root) {
         v.clear();
         if(!root){
             return v;
