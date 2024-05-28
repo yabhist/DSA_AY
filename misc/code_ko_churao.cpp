@@ -1,7 +1,6 @@
 /*
 const ll mod=998244353;
-ll binpow_mod(ll a ,ll b)
-{
+ll binpow_mod(ll a ,ll b){
     a %= mod;
     ll res = 1;
     while (b > 0) {
@@ -15,13 +14,10 @@ ll binpow_mod(ll a ,ll b)
 */
 
 /*
-ll binpow(ll a, ll b)
-{
+ll binpow(ll a, ll b){
     ll res=1;
-    while(b)
-    {
-        if(b&1)
-        {
+    while(b){
+        if(b&1){
             res*=a;
         }
         a*=a;
@@ -33,18 +29,15 @@ ll binpow(ll a, ll b)
 
 /*DSU
 vector<ll>parent,Size;
-void make(ll v)
-{
+void make(ll v){
     parent[v]=v;
     Size[v]=1;
 }
-ll find(ll v)
-{
+ll find(ll v){
     if(v==parent[v])return v;
     return parent[v]=find(parent[v]);
 }
-bool Union(ll a, ll b)
-{
+bool Union(ll a, ll b){
     a=find(a);
     b=find(b);
     if(a!=b)
@@ -65,18 +58,15 @@ Size.assign(n,1);
 Rank.assign(n,0);
 
 vector<ll>parent,Rank;
-void make(int v)
-{
+void make(int v){
     parent[v]=v;
     Rank[v]=0;
 }
-int find(int v)
-{
+int find(int v){
     if(v==parent[v])return v;
     return parent[v]=find(parent[v]);
 }
-bool Union(int a, int b)
-{
+bool Union(int a, int b){
     a=find(a);
     b=find(b);
     if(a!=b)
@@ -138,8 +128,21 @@ ll phi(ll n) {
     return result;
 }
 
-ll binpow_totient(ll a ,ll b)
-{
+vector<int> phi_1_to_n(int n) {
+    vector<int> phi(n + 1);
+    for (int i = 0; i <= n; i++)
+        phi[i] = i;
+
+    for (int i = 2; i <= n; i++) {
+        if (phi[i] == i) {
+            for (int j = i; j <= n; j += i)
+                phi[j] -= phi[j] / i;
+        }
+    }
+    return phi;
+}
+
+ll binpow_totient(ll a ,ll b){
     a %= mod;
     long long res = 1;
     b=b%tot;
@@ -159,18 +162,15 @@ priority_queue <vector<ll> ,vector<vector<ll>> ,greater<vector<ll>>> pq;
 vector<ll> dis(n,1e18);
 dis[0]=0;
 pq.push({0,0});
-while(!pq.empty())
-{
+while(!pq.empty()){
     ll dist=pq.top()[0];
     ll prev=pq.top()[1];
     pq.pop();
     if(dis[prev]!=dist) continue;
-    for(auto it:adj[prev])
-    {
+    for(auto it:adj[prev]){
         ll next=it[0];
         ll nexdist=it[1];
-        if(dis[next]> dist + nexdist)
-        {
+        if(dis[next]> dist + nexdist){
             dis[next]=dist + nexdist;
             pq.push({dis[next],next});
         }
@@ -192,7 +192,7 @@ struct node {
 };
 vector<ll> dist(n, 1e18); 
 dist[0] = 0; 
-for(ll i = 1;i<=N-1;i++) {
+for(ll i = 1;i<=n-1;i++) {
     for(auto it: edges) {
         if(dist[it.u]!=1e18 && dist[it.u] + it.wt < dist[it.v]) {
             dist[it.v] = dist[it.u] + it.wt; 
@@ -216,30 +216,14 @@ for(auto it: edges) {
 */
 
 /*FLOYD WARSHALL
-void shortest_distance(vector<vector<ll>>&matrix){
-    ll n=matrix.size();
-    for(ll i=0;i<n;i++)
-    {
-        for(ll j=0;j<n;j++)
-        {
-            if(matrix[i][j]==-1)matrix[i][j]=1e18;
-        }
-    }
-    for(ll k=0;k<n;k++)
-    {
-        for(ll i=0;i<n;i++)
-        {
-            for(ll j=0;j<n;j++)
-            {
+vector<vector<ll>>matrix
+ll n;
+void shortest_distance(){
+    for(ll k=0;k<n;k++){
+        for(ll i=0;i<n;i++){
+            for(ll j=0;j<n;j++){
                 matrix[i][j]=min(matrix[i][j], matrix[i][k] + matrix [k][j]);
             }
-        }
-    }
-    for(ll i=0;i<n;i++)
-    {
-        for(ll j=0;j<n;j++)
-        {
-            if(matrix[i][j]==1e8) matrix[i][j]=-1;
         }
     }
 }
@@ -370,6 +354,13 @@ ll compress(vector<ll>&A){
     }
     return ct;
 }
+
+// compress2
+vector<pair<ll,ll>>v(n);
+for(ll i=0;i<n;i++){
+    v[i]={a[i],i};
+}
+sort(v.begin(),v.end());
 */
 
 /*LCA
@@ -499,7 +490,7 @@ mint C(ll n, ll k) {
 }
 */
 
-/*
+/*SIEVE of ERASTOTHENES
 ll mx=32000;
 vector<bool> prime(mx+1,1);
 prime[0]=0,prime[1]=0;
@@ -531,49 +522,38 @@ for(ll i=2;i*i<=mx;i++)
 
 /*
 vector<ll> segtree;
-void build_segtree(vector<ll>&a,ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void build_segtree(vector<ll>&a,ll low, ll high, ll pos){
+    if(low==high){
         segtree[pos]=a[low];
     }
-    else
-    {
+    else{
         ll mid=(low+high)/2;
         build_segtree(a,low,mid,2*pos+1);
         build_segtree(a,mid+1,high,2*pos+2);
         segtree[pos]=min(segtree[2*pos+1],segtree[2*pos+2]);
     }
 }
-ll query(ll ql, ll qr, ll low, ll high, ll pos)
-{
-    if(ql>high || qr<low)
-    {
+ll query(ll ql, ll qr, ll low, ll high, ll pos){
+    if(ql>high || qr<low){
         return 1e18;
     }
-    if(low>=ql && high<=qr)
-    {
+    if(low>=ql && high<=qr){
         return segtree[pos];
     }
     ll mid=(low+high)/2;
     return min(query(ql,qr,low,mid,2*pos+1),query(ql,qr,mid+1,high,2*pos+2));
 }
-void update(ll i, ll val, ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void update(ll i, ll val, ll low, ll high, ll pos){
+    if(low==high){
         segtree[pos]=val;
     }
-    else
-    {
+    else{
         ll mid=(low+high)/2;
-        if(i<=mid)
-        {
-            update(a,i,val,low,mid,2*pos+1);
+        if(i<=mid){
+            update(i,val,low,mid,2*pos+1);
         }
-        else
-        {
-            update(a,i,val,mid+1,high,2*pos+2);
+        else{
+            update(i,val,mid+1,high,2*pos+2);
         }
         segtree[pos]=min(segtree[2*pos+1],segtree[2*pos+2]);
     }
@@ -623,11 +603,11 @@ void update(ll i, ll val, ll low, ll high, ll pos)
         ll mid=(low+high)/2;
         if(i<=mid)
         {
-            update(a,i,val,low,mid,2*pos+1);
+            update(i,val,low,mid,2*pos+1);
         }
         else
         {
-            update(a,i,val,mid+1,high,2*pos+2);
+            update(i,val,mid+1,high,2*pos+2);
         }
         segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
     }
@@ -644,8 +624,8 @@ void update1(ll i, ll val, ll low, ll high, ll pos)
         return;
     }
     ll mid=(low+high)/2;
-    update1(a,i,val,low,mid,2*pos+1);
-    update1(a,i,val,mid+1,high,2*pos+2);
+    update1(i,val,low,mid,2*pos+1);
+    update1(i,val,mid+1,high,2*pos+2);
     segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
     
 }
@@ -661,8 +641,8 @@ void update2(ll l,ll r, ll diff, ll low, ll high, ll pos)
         return;
     }
     ll mid=(low+high)/2;
-    update2(a,l,r,diff,low,mid,2*pos+1);
-    update2(a,l,r,diff,mid+1,high,2*pos+2);
+    update2(l,r,diff,low,mid,2*pos+1);
+    update2(l,r,diff,mid+1,high,2*pos+2);
     segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
 }
 segtree.assign(4*n+1,0);
@@ -670,10 +650,8 @@ segtree.assign(4*n+1,0);
 
 /*
 vector<ll>seg,lazy;
-void build_segtree(vector<ll>& a, ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void build_segtree(vector<ll>& a, ll low, ll high, ll pos){
+    if(low==high){
         seg[pos]=a[low];
         return;
     }
@@ -683,27 +661,21 @@ void build_segtree(vector<ll>& a, ll low, ll high, ll pos)
     build_segtree(a,mid+1,high,2*pos+2);
     seg[pos]=seg[2*pos+1]+seg[2*pos+2];
 }
-void upd(ll l, ll r, ll low, ll high, ll v, ll pos)
-{
-    if(lazy[pos]!=0)
-    {
+void upd(ll l, ll r, ll low, ll high, ll v, ll pos){
+    if(lazy[pos]!=0){
         seg[pos]+=(high-low+1)*lazy[pos];
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=lazy[pos];
             lazy[2*pos+2]+=lazy[pos];
         }
         lazy[pos]=0;
     }
-    if(high<l || low>r)
-    {
+    if(high<l || low>r){
         return;
     }
-    if(high<=r && low>=l)
-    {
+    if(high<=r && low>=l){
         seg[pos]+=(high-low+1)*v;
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=v;
             lazy[2*pos+2]+=v;
         }
@@ -714,24 +686,19 @@ void upd(ll l, ll r, ll low, ll high, ll v, ll pos)
     upd(l,r,m+1,high,v,2*pos+2);
     seg[pos]=seg[2*pos+1]+seg[2*pos+2];
 }
-ll qry(ll l, ll r, ll low, ll high, ll pos)
-{
-    if(lazy[pos]!=0)
-    {
+ll qry(ll l, ll r, ll low, ll high, ll pos){
+    if(lazy[pos]!=0){
         seg[pos]+=(high-low+1)*lazy[pos];
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=lazy[pos];
             lazy[2*pos+2]+=lazy[pos];
         }
         lazy[pos]=0;
     }
-    if(high<l || low>r)
-    {
+    if(high<l || low>r){
         return 0;
     }
-    if(high<=r && low>=l)
-    {
+    if(high<=r && low>=l){
         return seg[pos];
     }
     ll m=(low+high)/2;
@@ -743,10 +710,8 @@ lazy.assign(4*n+1,0);
 
 /*
 vector<ll>seg,lazy;
-void build_segtree(vector<ll>& a, ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void build_segtree(vector<ll>& a, ll low, ll high, ll pos){
+    if(low==high){
         seg[pos]=a[low];
         return;
     }
@@ -757,27 +722,21 @@ void build_segtree(vector<ll>& a, ll low, ll high, ll pos)
     seg[pos]=min(seg[2*pos+1],seg[2*pos+2]);
 
 }
-void upd(ll l, ll r, ll low, ll high, ll v, ll pos)
-{
-    if(lazy[pos]!=0)
-    {
+void upd(ll l, ll r, ll low, ll high, ll v, ll pos){
+    if(lazy[pos]!=0){
         seg[pos]+=lazy[pos];
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=lazy[pos];
             lazy[2*pos+2]+=lazy[pos];
         }
         lazy[pos]=0;
     }
-    if(high<l || low>r)
-    {
+    if(high<l || low>r){
         return;
     }
-    if(high<=r && low>=l)
-    {
+    if(high<=r && low>=l){
         seg[pos]+=v;
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=v;
             lazy[2*pos+2]+=v;
         }
@@ -788,24 +747,19 @@ void upd(ll l, ll r, ll low, ll high, ll v, ll pos)
     upd(l,r,m+1,high,v,2*pos+2);
     seg[pos]=min(seg[2*pos+1],seg[2*pos+2]);
 }
-ll qry(ll l, ll r, ll low, ll high, ll pos)
-{
-    if(lazy[pos]!=0)
-    {
+ll qry(ll l, ll r, ll low, ll high, ll pos){
+    if(lazy[pos]!=0){
         seg[pos]+=lazy[pos];
-        if(low!=high)
-        {
+        if(low!=high){
             lazy[2*pos+1]+=lazy[pos];
             lazy[2*pos+2]+=lazy[pos];
         }
         lazy[pos]=0;
     }
-    if(high<l || low>r)
-    {
+    if(high<l || low>r){
         return 9e18;
     }
-    if(high<=r && low>=l)
-    {
+    if(high<=r && low>=l){
         return seg[pos];
     }
     ll m=(low+high)/2;
@@ -820,20 +774,18 @@ lazy.assign(4*n+1,0);
 /*
 const ll mx=2e5;
 vector<vector<ll>>store(mx+5);
-for(ll k=1;k<=mx;k++)
-{
-    for(ll i=k;i<=mx;i+=k)
-    {
+for(ll k=1;k<=mx;k++){
+    for(ll i=k;i<=mx;i+=k){
         store[i].push_back(k);
     }
 }
 */
 
-/*DFS
+/*DFS TRAVERSAL
 vector<vector<ll>>adj;
 void dfs(ll u){
     for(auto i:adj[u]){
-        dfs(i,u);
+        dfs(i);
     }
 }
 vector<vector<ll>>adj;
@@ -1124,62 +1076,39 @@ while(!pq.empty()){
 */
 
 /*Zarr
-string str;
-vector<ll>z;
-ll n;
-void getZarr(){
-    ll l,k,r;
-    l=r=0;
-    for(ll i=1;i<n;i++){
-        if(i>r){
-            l=r=i;
-            while(r<n && str[r-l]==str[r]){
-                r++;
-            }
-            z[i]=r-l;
-            r--;
+vector<ll> z_function(string s) {
+    ll n = s.size();
+    vector<ll> z(n);
+    ll l = 0, r = 0;
+    for(ll i = 1; i < n; i++) {
+        if(i < r) {
+            z[i] = min(r - i, z[i - l]);
         }
-        else{
-            k=i-l;
-            if(z[k]<r-i+1){
-                z[i]=z[k];
-            }
-            else{
-                l=i;
-                while(r<n && str[r-l]==str[r]){
-                    r++;
-                }
-                z[i]=r-l;
-                r--;
-            }
+        while(i + z[i] < n && s[z[i]] == s[i + z[i]]) {
+            z[i]++;
+        }
+        if(i + z[i] > r) {
+            l = i;
+            r = i + z[i];
         }
     }
+    return z;
 }
-z.assign(n,0);
 */
 
 /*KMP pref_suff
-string needle;
-vector<ll> lps;
-ll m;
-void KMP_pref_suff(){
-    ll prev=0;
-    ll i=1;
-    while(i<m){
-        if(needle[i]==needle[prev]){
-            prev+=1;
-            lps[i]=prev;
-            i+=1;
-        }
-        else{
-            if(prev==0){
-                i+=1;
-            }
-            else{
-                prev=lps[prev-1];
-            }
-        }
+vector<ll> prefix_function(string s) {
+    ll n = (ll)s.length();
+    vector<ll> pi(n);
+    for (ll i = 1; i < n; i++) {
+        ll j = pi[i-1];
+        while (j > 0 && s[i] != s[j])
+            j = pi[j-1];
+        if (s[i] == s[j])
+            j++;
+        pi[i] = j;
     }
+    return pi;
 }
 */
 
