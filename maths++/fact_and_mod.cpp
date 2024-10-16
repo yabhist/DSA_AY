@@ -6,6 +6,9 @@ int factmod[NMAX+5],invmod[NMAX+5],invfactmod[NMAX+5];
 
 int BC(int n, int k)
 {
+    if(n<0 || k<0 || k>n){
+        return 0;
+    }
     return factmod[n] * invfactmod[k] % mod * invfactmod[n-k] % mod;
 }
 */

@@ -27,6 +27,23 @@ ll binpow(ll a, ll b){
 }
 */
 
+/*
+ll binpow_fermat(ll a, ll b) {
+    a %= mod;
+    ll res = 1;
+    b=b%(mod-1);
+    while (b > 0) {
+        if (b & 1)
+            res = res * a % mod;
+        a = a * a % mod;
+        b >>= 1;
+    }
+    return res;
+}
+ll mod_inverse_prime(ll a){
+    return binpow_fermat(a,mod-2);
+}
+*/
 /*DSU
 vector<ll>parent,Size;
 void make(ll v){
@@ -40,8 +57,7 @@ ll find(ll v){
 bool Union(ll a, ll b){
     a=find(a);
     b=find(b);
-    if(a!=b)
-    {
+    if(a!=b){
         if(Size[a]<Size[b])swap(a,b);
         parent[b]=a;
         Size[a]+=Size[b];
@@ -69,18 +85,14 @@ int find(int v){
 bool Union(int a, int b){
     a=find(a);
     b=find(b);
-    if(a!=b)
-    {
-        if(Rank[a]<Rank[b])
-        {
+    if(a!=b){
+        if(Rank[a]<Rank[b]){
             parent[a]=b;
         }
-        else if(Rank[a]>Rank[b])
-        {
+        else if(Rank[a]>Rank[b]){
             parent[b]=a;
         }
-        else
-        { 
+        else{ 
             parent[b]=a;
             Rank[a]++;
         }
@@ -90,12 +102,91 @@ bool Union(int a, int b){
 }
 */
 
+/*KOSARAJU
+vector<vector<ll>>adj,adjT;
+vector<bool>vis;
+stack<ll>stk;
+
+for(ll i=0;i<n;i++) {
+    vis[i] = 0; 
+    for(auto v: adj[i]) {
+        adjT[v].push_back(i); 
+    }
+}
+
+void dfs(ll u) {
+    vis[u] = 1; 
+    for(auto i: adj[u]) {
+        if(!vis[i]) {
+            dfs(i); 
+        }
+    }
+    stk.push(u); 
+}
+void revDfs(ll u) {
+    vis[u] = 1; 
+    for(auto i: adjT[u]) {
+        if(!vis[i]) {
+            revDfs(i); 
+        }
+    }
+}
+
+ 
+for(ll i=0;i<n;i++) {
+    if(!vis[i]) {
+        dfs(i); 
+    }
+} 
+
+while(!stk.empty()) {
+    ll u = stk.top();
+    stk.pop(); 
+    if(!vis[u]) {
+        revDfs(u);  
+    }
+}
+*/
+
+/*HIERHOLZER
+void printCircuit(vector<vector<ll>>adj, ll n){
+	if (n == 0)
+		return; 
+
+	vector<ll> curr_path;
+	curr_path.push_back(0);
+
+	vector<ll> circuit;
+
+	while (curr_path.size() > 0) {
+		ll curr_v = curr_path[curr_path.size() - 1];
+
+		if (adj[curr_v].size() > 0) {
+			ll next_v = adj[curr_v].back();
+			adj[curr_v].pop_back();
+
+			curr_path.push_back(next_v);
+		}
+
+		else {
+			circuit.push_back(curr_path.back());
+			curr_path.pop_back();
+		}
+	}
+
+	for (ll i = circuit.size() - 1; i >= 0; i--) {
+		cout << circuit[i];
+		if (i)
+			cout << " -> ";
+	}
+}
+*/
+
 /*FACT
 const ll NMAX=2e5,mod=998244353;
 ll factmod[NMAX+5],invmod[NMAX+5],invfactmod[NMAX+5];
 
-ll BC(ll n, ll k)
-{
+ll BC(ll n, ll k){
     if(n<0 || k<0 || k>n){
         return 0;
     }
@@ -128,14 +219,14 @@ ll phi(ll n) {
     return result;
 }
 
-vector<int> phi_1_to_n(int n) {
-    vector<int> phi(n + 1);
-    for (int i = 0; i <= n; i++)
+vector<ll> phi_1_to_n(ll n) {
+    vector<ll> phi(n + 1);
+    for (ll i = 0; i <= n; i++)
         phi[i] = i;
 
-    for (int i = 2; i <= n; i++) {
+    for (ll i = 2; i <= n; i++) {
         if (phi[i] == i) {
-            for (int j = i; j <= n; j += i)
+            for (ll j = i; j <= n; j += i)
                 phi[j] -= phi[j] / i;
         }
     }
@@ -157,7 +248,7 @@ ll binpow_totient(ll a ,ll b){
 */
 
 /*DIJKSTRA
-vector<vector<vector<ll>>>adj;
+vector<vector<vector<ll>>> adj;
 priority_queue <vector<ll> ,vector<vector<ll>> ,greater<vector<ll>>> pq;
 vector<ll> dis(n,1e18);
 dis[0]=0;
@@ -176,7 +267,7 @@ while(!pq.empty()){
         }
     }
 }
-adj.assign(n,vector<vector<ll>>());
+adj.assign(n,vector<vector<ll>>);
 */
 
 /*BELLMAN FORD
@@ -184,9 +275,9 @@ struct node {
     ll u;
     ll v;
     ll wt; 
-    node(ll first, ll second, ll weight) {
-        u = first;
-        v = second;
+    node(ll F, ll S, ll weight) {
+        u = F;
+        v = S;
         wt = weight;
     }
 };
@@ -216,7 +307,7 @@ for(auto it: edges) {
 */
 
 /*FLOYD WARSHALL
-vector<vector<ll>>matrix
+vector<vector<ll>> matrix;
 ll n;
 void shortest_distance(){
     for(ll k=0;k<n;k++){
@@ -230,20 +321,17 @@ void shortest_distance(){
 */
 
 /*SHORTEST BFS
-vector<ll>dis;
+vector<ll> dis;
 dis.assign(n,-1);
 dis[0]=0;
 
 queue<ll>q;
 q.push(0);
-while(!q.empty())
-{
-    ll i=q.front();
+while(!q.empty()){
+    ll i=q.fr();
     q.pop();
-    for(auto it:adj[i])
-    {
-        if(dis[it]==-1)
-        {
+    for(auto it:adj[i]){
+        if(dis[it]==-1){
             dis[it]=dis[i]+1; 
             q.push(it);
         }
@@ -253,41 +341,31 @@ while(!q.empty())
 
 /*SHORTEST DAG
 stack<ll>s;
-vector<ll>dis;
-void dfs_topo(ll i)
-{
+vector<ll> dis;
+void dfs_topo(ll i){
     vis[i]=1;
-    for(auto it: adj[i])
-    {
-        if(!vis[it.first])
-        {
+    for(auto it: adj[i]){
+        if(!vis[it.first]){
             dfs_topo(it.first);
         }
     }
     s.push(i);
 }
 
-void shortest_path_dag()
-{
+void shortest_path_dag(){
     dis.assign(n,1e18);
     dis[0]=0;
-    for(ll i=0;i<n;i++)
-    {
-        if(!vis[i])
-        {
+    for(ll i=0;i<n;i++){
+        if(!vis[i]){
             dfs_topo(i,vis,adj,s);
         }
     }
-    while(!s.empty())
-    {
+    while(!s.empty()){
         ll node=s.top();
         s.pop();
-        if(dis[node]!=1e18)
-        {
-            for(auto it:adj[node])
-            {
-                if(dis[node]+it.second < dis[it.first])
-                {
+        if(dis[node]!=1e18){
+            for(auto it:adj[node]){
+                if(dis[node]+it.second < dis[it.first]){
                     dis[it.first]=dis[node]+it.second;
                 }
             }
@@ -340,7 +418,7 @@ struct binary_indexed_tree{
         return res;
     }
 };
-ll compress(vector<ll>&A){
+ll compress(vector<ll> &A){
     map<ll,ll>mp;
     for(ll i=0;i<A.size();i++){
         mp[A[i]]=0;
@@ -356,7 +434,7 @@ ll compress(vector<ll>&A){
 }
 
 // compress2
-vector<pair<ll,ll>>v(n);
+vector<pair<ll,ll>> v(n);
 for(ll i=0;i<n;i++){
     v[i]={a[i],i};
 }
@@ -364,8 +442,8 @@ sort(v.begin(),v.end());
 */
 
 /*LCA
-vector<ll>lvl;
-vector<vector<ll>>dp,adj;
+vector<ll> lvl;
+vector<vector<ll>> dp,adj;
 ll LGN;
 void dfs(ll u, ll p){
     lvl[u]=lvl[p]+1;
@@ -401,8 +479,8 @@ ll lca(ll u, ll v){
     return dp[u][0];
 }
 LGN=log2l(n);
-adj.assign(n,vector<ll>());
-dp.assign(n,vector<ll>(LGN+1));
+adj.assign(n,vector<ll> ());
+dp.assign(n,vector<ll> (LGN+1));
 lvl.assign(n,0);
 */
 
@@ -472,18 +550,18 @@ ll MOD = (ll)1e9 + 7;
 
 using mint = Mint<MOD>;
 
-vector<mint> fact,ifact;
+v(mint) fact,ifact;
 
 mint C(ll n, ll k) {
   if (k < 0 || k > n) {
     return 0;
   }
-  while ((ll) fact.size() < n + 1) {
+  while (fact.size() < n + 1) {
     if (fact.empty()) {
       fact = ifact = {1};
       continue;
     }
-    fact.push_back(fact.back() * (ll) fact.size());
+    fact.push_back(fact.back() * fact.size());
     ifact.push_back(1 / fact.back());
   }
   return fact[n] * ifact[k] * ifact[n - k];
@@ -494,26 +572,20 @@ mint C(ll n, ll k) {
 ll mx=32000;
 vector<bool> prime(mx+1,1);
 prime[0]=0,prime[1]=0;
-for(ll i=2;i*i<=mx;i++)
-{
-    if(prime[i])
-    {
-        for(ll j=i*i;j<=mx;j+=i)
-        {
+for(ll i=2;i*i<=mx;i++){
+    if(prime[i]){
+        for(ll j=i*i;j<=mx;j+=i){
             prime[j]=0;
         }
     }
 }
 
-vector<ll>pFactorOf;
+vector<ll> pFactorOf;
 pFactorOf.assign(mx+1,0);
 iota(pFactorOf.begin(),pFactorOf.end(),0ll);
-for(ll i=2;i*i<=mx;i++)
-{
-    if((pFactorOf[i]==i))
-    {
-        for(ll j=i*i;j<=mx;j+=i)
-        {
+for(ll i=2;i*i<=mx;i++){
+    if((pFactorOf[i]==i)){
+        for(ll j=i*i;j<=mx;j+=i){
             if(pFactorOf[j]==j) pFactorOf[j]=i;
         }
     }
@@ -522,7 +594,7 @@ for(ll i=2;i*i<=mx;i++)
 
 /*
 vector<ll> segtree;
-void build_segtree(vector<ll>&a,ll low, ll high, ll pos){
+void build_segtree(vector<ll> &a,ll low, ll high, ll pos){
     if(low==high){
         segtree[pos]=a[low];
     }
@@ -563,14 +635,11 @@ segtree.assign(4*n+1,0);
 
 /*
 vector<ll> segtree;
-void build_segtree(vector<ll>&a, ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void build_segtree(vector<ll> &a, ll low, ll high, ll pos){
+    if(low==high){
         segtree[pos]=a[low];
     }
-    else
-    {
+    else{
         ll mid=low+(high-low)/2;
         build_segtree(a,low,mid,2*pos+1);
         build_segtree(a,mid+1,high,2*pos+2);
@@ -578,48 +647,37 @@ void build_segtree(vector<ll>&a, ll low, ll high, ll pos)
     }
 }
 
-ll query(ll ql, ll qr, ll low, ll high, ll pos)
-{
-    if(low>=ql && high<=qr)
-    {
+ll query(ll ql, ll qr, ll low, ll high, ll pos){
+    if(low>=ql && high<=qr){
         return segtree[pos];
     }
-    if(high<ql || low>qr)
-    {
+    if(high<ql || low>qr){
         return 0;
     }
     ll mid=low+(high-low)/2;
     return query(ql,qr,low,mid,2*pos+1)+query(ql,qr,mid+1,high,2*pos+2);
 }
 
-void update(ll i, ll val, ll low, ll high, ll pos)
-{
-    if(low==high)
-    {
+void update(ll i, ll val, ll low, ll high, ll pos){
+    if(low==high){
         segtree[pos]=val;
     }
-    else
-    {
+    else{
         ll mid=(low+high)/2;
-        if(i<=mid)
-        {
+        if(i<=mid){
             update(i,val,low,mid,2*pos+1);
         }
-        else
-        {
+        else{
             update(i,val,mid+1,high,2*pos+2);
         }
         segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
     }
 }
-void update1(ll i, ll val, ll low, ll high, ll pos)
-{
-    if(i<low || i>high)
-    {
+void update1(ll i, ll val, ll low, ll high, ll pos){
+    if(i<low || i>high){
         return;
     }
-    if(low==high)
-    {
+    if(low==high){
         segtree[pos]=val;
         return;
     }
@@ -627,16 +685,12 @@ void update1(ll i, ll val, ll low, ll high, ll pos)
     update1(i,val,low,mid,2*pos+1);
     update1(i,val,mid+1,high,2*pos+2);
     segtree[pos]=segtree[2*pos+1]+segtree[2*pos+2];
-    
 }
-void update2(ll l,ll r, ll diff, ll low, ll high, ll pos)
-{
-    if(r<low || l>high)
-    {
+void update2(ll l,ll r, ll diff, ll low, ll high, ll pos){
+    if(r<low || l>high){
         return;
     }
-    if(low==high)
-    {
+    if(low==high){
         segtree[pos]+=diff;
         return;
     }
@@ -649,8 +703,8 @@ segtree.assign(4*n+1,0);
 */
 
 /*
-vector<ll>seg,lazy;
-void build_segtree(vector<ll>& a, ll low, ll high, ll pos){
+vector<ll> seg,lazy;
+void build_segtree(vector<ll> & a, ll low, ll high, ll pos){
     if(low==high){
         seg[pos]=a[low];
         return;
@@ -709,8 +763,8 @@ lazy.assign(4*n+1,0);
 */
 
 /*
-vector<ll>seg,lazy;
-void build_segtree(vector<ll>& a, ll low, ll high, ll pos){
+vector<ll> seg,lazy;
+void build_segtree(vector<ll> & a, ll low, ll high, ll pos){
     if(low==high){
         seg[pos]=a[low];
         return;
@@ -773,7 +827,7 @@ lazy.assign(4*n+1,0);
 
 /*
 const ll mx=2e5;
-vector<vector<ll>>store(mx+5);
+vector<vector<ll>> store(mx+5);
 for(ll k=1;k<=mx;k++){
     for(ll i=k;i<=mx;i+=k){
         store[i].push_back(k);
@@ -782,21 +836,21 @@ for(ll k=1;k<=mx;k++){
 */
 
 /*DFS TRAVERSAL
-vector<vector<ll>>adj;
+vector<vector<ll>> adj;
 void dfs(ll u){
     for(auto i:adj[u]){
         dfs(i);
     }
 }
-vector<vector<ll>>adj;
+
 void dfs(ll u, ll p){
     for(auto i:adj[u]){
         if(i==p) continue;
         dfs(i,u);
     }
 }
-vector<vector<ll>>adj;
-vector<bool>vis;
+vector<vector<ll>> adj;
+vector<bool> vis;
 void dfs(ll u){
     vis[u]=1;
     for(auto i:adj[u]){
@@ -807,23 +861,23 @@ void dfs(ll u){
 }
 
 BFS
-vector<vector<ll>>adj;
+vector<vector<ll>> adj;
 queue<ll>q;
 q.push(0);
 while(!q.empty()){
-    auto tm=q.front();
+    auto tm=q.fr();
     q.pop();
     for(auto i:adj[tm]){
         q.push(i);
     }
 }
-vector<vector<ll>>adj;
-vector<bool>vis;
+vector<vector<ll>> adj;
+vector<bool> vis;
 queue<ll>q;
 q.push(0);
 vis[0]=1;
 while(!q.empty()){
-    auto tm=q.front();
+    auto tm=q.fr();
     q.pop();
     for(auto i:adj[tm]){
         if(!vis[i]){
@@ -832,17 +886,16 @@ while(!q.empty()){
         }
     }
 }
-vector<vector<ll>>adj;
-vector<bool>vis;
+vector<vector<ll>> adj;
+vector<bool> vis;
 queue<ll>q;
-vector<vector<ll>>lvl;
+vector<vector<ll>> lvl;
 q.push(0);
 vis[0]=1;
 while(!q.empty()){
-    ll sz=q.size();
-    vector<ll>v;
-    for(ll i=0;i<sz;i++){
-        auto tm=q.front();
+    vector<ll> v;
+    for(ll i=0;i<q.size();i++){
+        auto tm=q.fr();
         q.pop();
         for(auto j:adj[tm]){
             if(!vis[j]){
@@ -856,9 +909,9 @@ while(!q.empty()){
 }
 */
 
-/*TOPO
-vector<ll>in;
-vector<ll>topo;
+/*TOPOLogical
+vector<ll> in;
+vector<ll> topo;
 void bfs_topo(){
     queue<ll>q;
     for(ll i=1;i<=n;i++){
@@ -872,7 +925,7 @@ void bfs_topo(){
         }
     }
     while(!q.empty()){
-        ll node=q.front();
+        ll node=q.fr();
         topo.push_back(node);
         q.pop();
         for(auto it:adj[node]){
@@ -884,9 +937,9 @@ void bfs_topo(){
     }
 }
 
-vector<bool>vis;
+vector<bool> vis;
 stack<ll>stk;
-vector<ll>topo;
+vector<ll> topo;
 void dfs(ll u){
     vis[u]=1;
     for(auto j: adj[u]){
@@ -910,7 +963,7 @@ void topo(){
 */
 
 /*CYCLE directed
-vector<bool>vis,dfsvis;
+vector<bool> vis,dfsvis;
 bool cycle(ll i){
     vis[i]=1;
     dfsvis[i]=1;
@@ -938,7 +991,7 @@ bool dfsuse(){
     return false;
 }
 
-vector<ll>in;
+vector<ll> in;
 bool cycle_bfs(){
     queue<ll>q;
     for(ll i=0;i<n;i++){
@@ -953,7 +1006,7 @@ bool cycle_bfs(){
     }
     ll ct=0;
     while(!q.empty()){
-        ll node=q.front();
+        ll node=q.fr();
         ct++;
         q.pop();
         for(auto it:adj[node]){
@@ -970,13 +1023,13 @@ bool cycle_bfs(){
 
 /*CYCLE undirected
 bool cycle(ll i){
-    pair<ll,ll>p={i,-1};
+    pair<ll,ll> p={i,-1};
     queue<pair<ll,ll>>q;
     vis[i]=1;
     q.push(p);
     while(!q.empty()){
-        ll node = q.front().first;
-        ll par=q.front().second;
+        ll node = q.fr().first;
+        ll par=q.fr().second;
         q.pop();
         for(auto it:adj[node]){
             if(!vis[it]){
@@ -1033,10 +1086,10 @@ struct node{
     ll wt;
     ll u;
     ll v;
-    node(ll first, ll second, ll weight){
+    node(ll F, ll S, ll weight){
         wt=weight;
-        u=first;
-        v=second;
+        u=F;
+        v=S;
     }
 };
 ll cost=0;
@@ -1050,13 +1103,14 @@ for(auto it:edges){
 }
 
 PRIM
-vector<ll>par;
-vector<ll>key;
-vector<bool>mstset;
+vector<ll> par;
+vector<ll> key;
+vector<bool> mstset;
+vector<vector<vector<ll>>> adj;
+priority_queue<vector<ll>  ,vector<vector<ll>>  ,greater<vector<ll> >> pq;
 
-priority_queue<pair<ll,ll> ,vector<pair<ll,ll>> ,greater<pair<ll,ll>>> pq;
-key[1]=0;
-par[1]=-1;
+key[0]=0;
+par[0]=-1;
 pq.push({0,1});
 while(!pq.empty()){
     ll u=pq.top().second;
@@ -1064,8 +1118,8 @@ while(!pq.empty()){
     if(mstset[u]) continue;
     mstset[u]=true;
     for(auto it:adj[u]){
-        ll v=it.first;
-        ll wt=it.second;
+        ll v=it[0];
+        ll wt=it[1];
         if(mstset[v]==false && wt<key[v]){
             par[v]=u;
             key[v]=wt;
@@ -1076,9 +1130,9 @@ while(!pq.empty()){
 */
 
 /*Zarr
-vector<ll> z_function(string s) {
+vector<ll>  z_function(string s) {
     ll n = s.size();
-    vector<ll> z(n);
+    vector<ll>  z(n);
     ll l = 0, r = 0;
     for(ll i = 1; i < n; i++) {
         if(i < r) {
@@ -1097,9 +1151,9 @@ vector<ll> z_function(string s) {
 */
 
 /*KMP pref_suff
-vector<ll> prefix_function(string s) {
+vector<ll>  prefix_function(string s) {
     ll n = (ll)s.length();
-    vector<ll> pi(n);
+    vector<ll>  pi(n);
     for (ll i = 1; i < n; i++) {
         ll j = pi[i-1];
         while (j > 0 && s[i] != s[j])
@@ -1113,64 +1167,123 @@ vector<ll> prefix_function(string s) {
 */
 
 /*SPARSE
-vector<vector<ll>>sparse;
+vector<vector<ll>> sparse;
 ll n;
 ll LGN;
-vector<ll>a
-void build_sparse()
-{
-    for(ll i=0;i<n;i++)
-    {
+vector<ll> a
+void build_sparse(){
+    for(ll i=0;i<n;i++){
         sparse[i][0]=a[i];
     }
-    for(ll j=1;(1ll<<j)<=n;j++)
-    {
-        for(ll i=0;i+(1ll<<j)<=n;i++)
-        {
+    for(ll j=1;(1ll<<j)<=n;j++){
+        for(ll i=0;i+(1ll<<j)<=n;i++){
             sparse[i][j]=max(sparse[i][j-1] , sparse[i+(1ll<<(j-1))][j-1]);
         }
     }
 }
-ll query(ll l, ll r)
-{
+ll query(ll l, ll r){
     ll j = (ll)log2l(r-l+1);
     return max(sparse[l][j] , sparse[r-(1<<j)+1][j]);
 }
-sparse.assign(n,vector<ll>(LGN));
+sparse.assign(n,vector<ll> (LGN));
 LGN=log2l(n);
 */
 
 /*MAX IN SUBARRAY
-vector<pair<ll,ll>>res(n,{-1,n});
+vector<pair<ll,ll>> res(n,{-1,n});
 stack<ll>st;
-for( ll i=0;i<n;i++)
-{
-    while(!st.empty() && v[st.top()]<v[i])
-    {
+for( ll i=0;i<n;i++){
+    while(!st.empty() && v[st.top()]<v[i]){
         res[st.top()].second=i;
         st.pop();
     }
     st.push(i);
 }
-while(!st.empty())
-{
+while(!st.empty()){
     st.pop();
 }
-for( ll i=n-1;i>=0;i--)
-{
-    while(!st.empty() && v[st.top()]<v[i])
-    {
+for( ll i=n-1;i>=0;i--){
+    while(!st.empty() && v[st.top()]<v[i]){
         res[st.top()].first=i;
         st.pop();
     }
     st.push(i);
 }
-while(!st.empty())
-{
+while(!st.empty()){
     st.pop();
 }
-for(auto i:res)
-{
+for(auto i:res){
     cout<<i.first+1<<' '<<i.second-1<<'\n';
+}
+*/
+
+/*
+void mxsbarsm(vector<ll> &a, ll n){
+    ll max_end=0, max_now=-1e18;
+    ll start=0,end=0,s=0;
+    for(ll i=0;i<n;i++){
+        max_end+=a[i];
+        if(max_now < max_end){
+            max_now=max_end;
+            start=s;
+            end=i;
+        }
+        if(max_end<0){
+            max_end=0;
+            s=i+1;
+        }
+    }
+    cout<<start<<' '<<end<<' '<<max_now<<'\n';
+}
+*/
+
+/*BRIDGE
+vector<vector<ll>> adj;
+vector<bool> vis;
+vector<ll> tin,low;
+vector<pair<ll,ll>> v;
+ll timer=0;
+void dfs(int node, int parent) {
+    vis[node] = 1; 
+    tin[node] = low[node] = timer++; 
+    for(auto it: adj[node]) {
+        if(it == parent) continue;
+        
+        if(!vis[it]) {
+            dfs(it, node); 
+            low[node] = min(low[node], low[it]); 
+            if(low[it] > tin[node]) {
+                v.push_back({node,it});
+            }
+        } else {
+            low[node] = min(low[node], tin[it]); 
+        }
+    }
+}
+*/
+
+/* Path between two vertices in full binary tree
+vector<ll> path_in_full_binary_tree(ll a, ll b){
+    vector<ll> left,right;
+    while(__lg(a)>__lg(b)){
+        left.push_back(a);
+        a/=2;
+    }
+    while(__lg(b)>__lg(a)){
+        right.push_back(b);
+        b/=2;
+    }
+    while(a!=b){
+        left.push_back(a);
+        right.push_back(b);
+        a/=2;
+        b/=2;
+    }
+    left.push_back(a);
+    reverse(right.begin(),right.end());
+    for(auto i:right){
+        left.push_back(i);
+    }
+    return left;
 }
 */

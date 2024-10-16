@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void printCircuit(vector< vector<int> > adj)
+void printCircuit(vector<vector<int>> &adj)
 {
 	unordered_map<int,int> edge_count;
 
@@ -76,6 +76,18 @@ int main()
 	adj2[5].push_back(0);
 	adj2[6].push_back(4);
 	printCircuit(adj2);
+
+    cout << endl;
+
+	adj2.assign(6,vector<int>());
+	adj2[0].push_back(1);
+	adj2[1].push_back(2);
+	adj2[2].push_back(5);
+	adj2[5].push_back(0);
+	adj2[2].push_back(3);
+	adj2[3].push_back(4);
+	adj2[4].push_back(2);
+    printCircuit(adj2);
 
 	return 0;
 }
